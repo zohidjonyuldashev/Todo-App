@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment :: head(~{::title})">
+    <title>Create Page</title>
+</head>
+<body>
+<div class="container mt-5">
+    <form role="form" method="post" th:action="@{/todos/new}">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority</label>
+            <input type="text" class="form-control" id="priority" name="priority">
+        </div>
+        <a href="/todos" class="btn btn-warning">Back</a>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+</div>
+<section th:replace="fragment :: js"></section>
+</body>
+</html>

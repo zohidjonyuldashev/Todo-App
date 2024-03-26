@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment :: head(~{::title})">
+    <title>Update Page</title>
+</head>
+<body>
+<div class="container mt-5">
+    <form method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" th:value="${todo.title}">
+        </div>
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority</label>
+            <input type="text" class="form-control" id="priority" name="priority" th:value="${todo.priority}">
+        </div>
+        <a href="/todos" class="btn btn-warning">Back</a>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</div>
+<section th:replace="fragment :: js"></section>
+</body>
+</html>
