@@ -6,7 +6,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -21,22 +23,25 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("uz.developer")
 @EnableWebMvc
+@PropertySource("classpath:application.properties")
 public class WebMvcConfiguration implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
+    private final Environment env;
 
     @Autowired
-    public WebMvcConfiguration(ApplicationContext applicationContext) {
+    public WebMvcConfiguration(ApplicationContext applicationContext, Environment env) {
         this.applicationContext = applicationContext;
+        this.env = env;
     }
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/springdata");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("2004");
-        dataSource.setSchema("jdbc");
+        dataSource.setDriverClassName(env.getRequiredProperty("spring.datasource.jdbc.driverClassName"));
+        dataSource.setUrl(env.getRequiredProperty("spring.datasource.jdbc.url"));
+        dataSource.setUsername(env.getRequiredProperty("spring.datasource.jdbc.username"));
+        dataSource.setPassword(env.getRequiredProperty("spring.datasource.jdbc.password"));
+        dataSource.setSchema(env.getRequiredProperty("spring.datasource.jdbc.schema"));
         return dataSource;
     }
 
